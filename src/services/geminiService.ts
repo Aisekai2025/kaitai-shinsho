@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { CharacterType, ConsultationResponse } from "../types";
 
@@ -18,24 +17,24 @@ const SYSTEM_INSTRUCTION = `
 
 # 制約
 - 1発言100〜150文字。
-- 良沢・玄白はカタカナ用語を和風概念に変換（例：タスク→日々の務め、アサイン→割り振り）。
+- 良沢・玄白はカタカナ用語を和風概念に変換。
 - AIは源内の乱入を完全に無視する。
 
 # 出力形式 (JSON必須)
 {
-  "analysis": "思考プロセス。ユーザーの状況、最適な介入キャラ、源内乱入の有無を記述",
+  "analysis": "...",
   "messages": [
     { "sender": "前野良沢 または 杉田玄白", "content": "本文" },
     { "sender": "介入キャラ名", "content": "本文" },
     { "sender": "AI", "content": "具体的工夫と締めの挨拶" }
   ]
 }
-※源内が乱入する場合は、AIの前にメッセージを追加すること。
 `;
 
 export const processWorry = async (worry: string): Promise<ConsultationResponse> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  
+  // ← ここを1行だけにする
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
@@ -76,10 +75,12 @@ export const processWorry = async (worry: string): Promise<ConsultationResponse>
     console.error("Gemini API Error:", error);
     return {
       analysis: "エラーが発生しました。",
-      messages: [{
-        sender: CharacterType.AI,
-        content: "申し訳ございません。通信の不調により診察が中断されました。もう一度お試しください。"
-      }]
+      messages: [
+        {
+          sender: CharacterType.AI,
+          content: "申し訳ございません。通信の不調により診察が中断されました。もう一度お試しください。"
+        }
+      ]
     };
   }
 };

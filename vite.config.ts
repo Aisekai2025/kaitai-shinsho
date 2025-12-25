@@ -5,8 +5,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
+  const isProd = mode === 'production';
+
   return {
-    base: '/kaitai-shinsho/',  // ← GitHub Pages 用の設定（これだけ追加）
+    // 本番（GitHub Pages）だけ base を付ける
+    base: isProd ? '/kaitai-shinsho/' : '/',
 
     server: {
       port: 3000,
@@ -16,7 +19,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
 
     define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
 

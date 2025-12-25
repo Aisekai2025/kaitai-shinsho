@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { CharacterType, ChatMessage } from './types';
-import { processWorry } from './services/geminiService';
+import { processWorry } from "./services/geminiService";
 import ChatBubble from './components/ChatBubble';
 
 const App: React.FC = () => {
