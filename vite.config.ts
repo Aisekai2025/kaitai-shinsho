@@ -21,3 +21,7 @@ export default defineConfig(({ mode }) => {
       }
     };
 });
+export default defineConfig({
+  base: '/kaitai-shinsho/',  // ← ここが重要
+  // 既存の設定はそのままでOK
+})
